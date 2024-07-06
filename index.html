@@ -1,0 +1,58 @@
+<html>
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.pkgd.min.js"></script>
+    <style>
+        #gallery {
+            margin: 0 auto;
+        }
+
+        .item {
+            margin-bottom: 20px;
+            width: 25%;
+            float: left;
+        }
+
+        .item img {
+            width: 100%;
+        }
+    </style>
+    <script>$(document).ready(function() {
+        // 加载图片列表
+        $.getJSON('images.json', function(data) {
+          var items = '';
+          $.each(data, function(index, item) {
+            items += '<div class="item"><a href="' + item.src + '" target="_blank"><img src="' + item.thumbnail + '"></a></div>';
+          });
+          $('#gallery').append(items);
+          
+          // 初始化Masonry
+          var $grid = $('#gallery').masonry({
+            itemSelector: '.item',
+            columnWidth: '.grid-sizer',
+            gutter: '.gutter-sizer',
+            percentPosition: true
+          });
+          
+          // 懒加载图片
+          $grid.imagesLoaded().progress( function() {
+            $grid.masonry('layout');
+          });
+          
+          // 点击图片查看原图
+          $('#gallery a').click(function(event) {
+            event.preventDefault();
+            var imgSrc = $(this).attr('href');
+            window.open(imgSrc);
+          });
+        });
+      });
+</script>
+</head>
+<div id="gallery">
+    <div class="grid-sizer"></div>
+    <div class="gutter-sizer"></div>
+</div>
+
+</html>
