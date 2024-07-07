@@ -30,7 +30,7 @@
     </script>
     <script>
 // 加载图片列表
-$.getJSON('https://imgwall-7qqamgkvry.pages.dev/images.json', function(data) {
+$.getJSON('images.json', function(data) {
                 var items = '';
                 $.each(data, function(index, item) {
                     items += '<div class="item"><a href="' + item.src + '" target="_blank"><img loading=lazy decoding="async" src="' + item.thumbnail + '"></a></div>';
