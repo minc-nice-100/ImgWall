@@ -1,0 +1,38 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  generate_images_list:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+
+    - name: Install pipreqs
+      run: pip install pipreqs
+
+    - name: Generate requirements.txt
+      run: pipreqs .
+    
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+    
+    - name: Generate images list
+      run: python build.py
+      
+    - name: Commit changes
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: "Update images list"
+        commit_options: "--no-verify"
+        file_pattern: "images.json"
