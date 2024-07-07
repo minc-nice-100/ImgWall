@@ -2,57 +2,53 @@
 
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.pkgd.min.js"></script>
+    <script src="https://tokinx.github.io/ViewImage/view-image.min.js"></script>
     <style>
         #gallery {
             margin: 0 auto;
+            column-gap: 20px; /* 列间距 */
         }
 
         .item {
+            display: inline-block; /* 内容以块级元素的方式显示 */
+            width: 23%; /* 宽度占满列 */
             margin-bottom: 20px;
-            width: 25%;
-            float: left;
+            border-radius: 10px; /* 添加圆角 */
+            overflow: hidden; /* 隐藏溢出的圆角部分 */
         }
 
         .item img {
             width: 100%;
+            display: block;
         }
+
     </style>
-    <script>$(document).ready(function() {
-        // 加载图片列表
-        $.getJSON('images.json', function(data) {
-          var items = '';
-          $.each(data, function(index, item) {
-            items += '<div class="item"><a href="' + item.src + '" target="_blank"><img src="' + item.thumbnail + '"></a></div>';
-          });
-          $('#gallery').append(items);
-          
-          // 初始化Masonry
-          var $grid = $('#gallery').masonry({
-            itemSelector: '.item',
-            columnWidth: '.grid-sizer',
-            gutter: '.gutter-sizer',
-            percentPosition: true
-          });
-          
-          // 懒加载图片
-          $grid.imagesLoaded().progress( function() {
-            $grid.masonry('layout');
-          });
-          
-          // 点击图片查看原图
-          $('#gallery a').click(function(event) {
-            event.preventDefault();
-            var imgSrc = $(this).attr('href');
-            window.open(imgSrc);
-          });
-        });
-      });
-</script>
+    <script>
+      window.ViewImage && ViewImage.init('a');
+    </script>
+    <script>
+// 加载图片列表
+$.getJSON('https://imgwall-7qqamgkvry.pages.dev/images.json', function(data) {
+                var items = '';
+                $.each(data, function(index, item) {
+                    items += '<div class="item"><a href="' + item.src + '" target="_blank"><img loading=lazy decoding="async" src="' + item.thumbnail + '"></a></div>';
+                });
+                $('#gallery').append(items);
+                // 初始化Masonry
+                $('#gallery').imagesLoaded( function() {
+                  var $grid = $('#gallery').masonry({
+                    itemSelector: '.item',
+                    columnWidth: '.item',
+                    gutter: 20, // 设置列间距
+                    percentPosition: true
+                });
+            });
+            });
+            
+    </script>
 </head>
-<div id="gallery">
-    <div class="grid-sizer"></div>
-    <div class="gutter-sizer"></div>
-</div>
+<div id="gallery" view-image></div>
 
 </html>
