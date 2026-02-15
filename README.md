@@ -1,3 +1,14 @@
+> ### 🏠 Repository Relocation Notice
+> 
+> **This GitHub repository is no longer maintained.**  
+> Our code, issues, and future updates have permanently moved to **Codeberg** — a friendly platform for free and open source collaboration.
+> 
+> 👉 **New home:** [https://codeberg.org/minc-nice-100/ImgWall](https://codeberg.org/minc-nice-100/ImgWall)
+> 
+> Feel free to ⭐ Star, submit PRs, or join discussions at our new home. Thanks for your support!
+
+
+
 # ImgWall
 一个简单的图片墙,使用jquery,masonry.js与一杯豆浆构建.
 
